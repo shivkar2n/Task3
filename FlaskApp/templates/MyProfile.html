@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div>
+  <li>Username: {{ User.username }}</li>
+  <li>Location: {{ User.location }}</li>
+  <li>Member since: {{ '{}/{}/{}'.format(User.datejoined.day,User.datejoined.month,User.datejoined.year) }}</li>
+  <li>Description: {{ User.description }}</li>
+  <br>
+
+  <p><b>Bought Products</b></p>
+  {% for P in Products %}
+    {% if P.bidder_name == User.username %}
+    <div class="ProductsBox">
+      <li>Name: {{ P.name }}</li>
+      <li>Condtion: {{ P.condition }}</li>
+      <li>Auctioned Price(in USD): {{ P.price }}</li>
+      <img src="/static/image/{{ P.image_name }}" width="150" height="150">
+    </div>
+    <br>
+    {% endif %}
+  {% endfor %}
+
+  <p><b>Sold Products</b></p>
+  {% for P in Products %}
+    {% if P.user.id == User.id and P.soldstatus %}
+    <div class="ProductsBox">
+      <li>Name: {{ P.name }}</li>
+      <li>Condtion: {{ P.condition }}</li>
+      <li>Sold Price(in USD): {{ P.price }}</li>
+      <img src="/static/image/{{ P.image_name }}" width="150" height="150">
+    </div>
+    <br>
+    {% endif %}
+  {% endfor %}
+
+  <p><b>Unactioned Products</b></p>
+  {% for P in Products %}
+    {% if P.user.id == User.id and P.soldstatus == 0 %}
+    <div class="ProductsBox">
+      <li>Name: {{ P.name }}</li>
+      <li>Condtion: {{ P.condition }}</li>
+      <li>Status: {{ P.status }}</li>
+      <img src="/static/image/{{ P.image_name }}" width="150" height="150">
+    </div>
+    <br>
+    {% endif %}
+  {% endfor %}
+
+</div>
+
+{% endblock%}

@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="ProductsBox">
+    <li>Name: {{ Product.name }}</li>
+    <li>Condtion: {{ Product.condition }}</li>
+    <li>Owner: {{ Product.user.username }}</li>
+    <img src="/static/image/{{ Product.image_name }}" width="150" height="150">
+
+    {% if Product.status %}
+      <li>Status: <p style="color:red">Bidding going on!</p></li>
+      <li>Current bidding price(in USD): {{ Product.price }}</li><br>
+      {% if Product.price %}
+      <li>Current bidder: {{ Product.bidder_name }}</li><br>
+      {% endif %}
+
+    {% else %}
+      <li>Status: Bidding closed</li>
+    {% endif %}
+
+    {% if Product.user.id == current_user.id %}
+      <form method="POST" name="bidstatus">
+        {% if Product.status == 0 %}
+          <label for="biddingtimehr">Hours:</label>
+          <input type="number" name="biddingtimehr" min="0" max="24">
+          <label for="biddingtimemin">Minutes:</label>
+          <input type="number" name="biddingtimemin" min="0" max="59">
+          <br>
+          <input type="submit" value="Start Bidding">
+        {% else%}
+          <label>Bidding ends by: {{ending_hr}}:{{ending_min}}</label>
+          <input type="submit" value="Stop Bidding">
+        {% endif %}
+      </form>
+     {% else %}
+        {% if Product.status %}
+          <label>Bidding ends by: {{ending_hr}}:{{ending_min}}</label>
+        {% endif %}
+       <form method="POST" name="bidprice">
+         <li>Your bid:</li><br>
+         <input type="text" name="price">
+         <input type="submit" value="Submit"></input>
+         <br><br>
+       </form>
+     {% endif %}
+
+  </div>
+  <br>
+{% endblock%}
+
+{% block script %}
+{% endblock %}

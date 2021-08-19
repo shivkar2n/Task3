@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <form method="POST">
+    <div class="container">
+      <label for="Username"><b>Username</b></label>
+      <input type="text" placeholder="Enter Username" name="Username" required>
+      <br>
+      <br>
+      <label for="Location"><b>Location</b></label>
+      <input type="text" placeholder="Based in" name="Location" required>
+      <br>
+      <br>
+      <label for="Password"><b>Password</b></label>
+      <input type="password" placeholder="Enter Password" name="Password" required>
+      <br>
+      <br>
+      <label for="Description">Description:</label>
+        <br>
+        <textarea name="Description" rows="4" cols="50" required></textarea>
+
+      <button type="submit">Register</button>
+    </div>
+  </form>
+{% endblock%}

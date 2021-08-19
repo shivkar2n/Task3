@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<p><b><u>Unsold Products</u></b></p>
+  {% for P in Products %}
+      {% if P.soldstatus == 0 %}
+        <div class="ProductsBox">
+            <li>Name:<a href={{ url_for('product', product_id=P.id) }}>{{ P.name }}</a></li>
+            <li>Condition: {{ P.condition }}</li>
+
+            {% if P.status %}
+              <li>Status: <p style="color:red">Bidding going on!</p></li>
+
+            {% elif P.status == 0 and P.soldstatus == 0 %}
+              <li>Status: Bidding closed!</li>
+            {% endif %}
+
+            <li>Owner: {{ P.user.username }}</li>
+            <img src="/static/image/{{ P.image_name }}" width="150" height="150">
+        </div>
+
+      <br>
+    {% endif %}
+  {% endfor %}
+
+  <p><u><b>Auctioned Products</b></u></p>
+  {% for P in Products %}
+    {% if P.soldstatus %}
+    <div class="ProductsBox">
+      <li>Name:<a href={{ url_for('product', product_id=P.id) }}>{{ P.name }}</a></li>
+      <li>Condtion: {{ P.condition }}</li>
+      <li>Sold Price(in USD): {{ P.price }}</li>
+
+      {% if P.status %}
+        <li>Status: <p style="color:red">Bidding going on!</p></li>
+        <li>Bidding ends by: {{ending_hr}}:{{ending_min}}</li>
+      {% endif %}
+
+      <li>Auctioned to: {{ P.bidder_name }}</li>
+      <img src="/static/image/{{ P.image_name }}" width="150" height="150">
+    </div>
+    <br>
+    {% endif %}
+  {% endfor %}
+
+{% endblock%}
